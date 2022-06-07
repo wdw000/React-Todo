@@ -1,15 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import store from "./app/store";
+import { Provider } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "./features/login/Login";
+import TodoList from "./features/todo/list/TodoList";
+import TodoCalendar from "./features/todo/calendar/TodoCalendar";
+import PrivateRoute from "./router/PrivateRoute";
+import TodoChart from "./features/todo/chart/TodoChart";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />}></Route>
+          <Route path="/main" element={<PrivateRoute component={<App />} />}>
+            <Route path="list" element={<TodoList />} />
+            <Route path="calendar" element={<TodoCalendar />} />
+            <Route path="chart" element={<TodoChart />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 

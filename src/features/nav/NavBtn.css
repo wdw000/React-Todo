@@ -1,0 +1,28 @@
+.NavBtn > ul {
+  display: flex;
+}
+
+.NavBtn > ul > li {
+  flex: 1;
+  max-width: 10rem;
+  text-align: center;
+  font-weight: bold;
+  background-color: #dddddd;
+  margin-right: 1rem;
+  height: 2.5rem;
+  border-top-left-radius: 1rem 1rem;
+  border-top-right-radius: 1rem 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.NavBtn > ul > li > div {
+  background-color: transparent;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.NavBtn .on {
+  background-color: #777777;
+  color: white;
+}
