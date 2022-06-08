@@ -1,12 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { selectLoginImg } from "../login/loginSlice";
 import "./Nav.css";
 import NavBtn from "./NavBtn";
+import { selectNavState } from "./navSlice";
 
 const Nav = () => {
-  const userPicture = useSelector((state: any) => state.login.picture);
+  const userPicture = useSelector(selectLoginImg);
   const navButtons = ["List", "Calendar", "Chart"];
-  const navState = useSelector((state: State) => state.nav.navState);
+  const navState = useSelector(selectNavState);
 
   return (
     <header>

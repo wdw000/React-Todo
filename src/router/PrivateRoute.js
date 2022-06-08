@@ -2,18 +2,18 @@ import { isEqual } from "lodash";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { selectLogin } from "../features/login/loginSlice";
 
 function PrivateRoute({ component: Component }) {
-  const intitialUser = {
+  const user = useSelector(selectLogin);
+  const initialLoginUser = {
     uid: "",
-    name: "",
     email: "",
+    name: "",
     picture: "",
   };
 
-  const user = useSelector((state) => state.login);
-
-  return !isEqual(user, intitialUser) ? (
+  return !isEqual(user, initialLoginUser) ? (
     Component
   ) : (
     <Navigate to="/" {...alert("로그인이 필요합니다.")} />

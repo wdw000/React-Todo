@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: User = {
   uid: "",
-  name: "",
   email: "",
+  name: "",
   picture: "",
 };
 
@@ -13,16 +13,20 @@ export const loginSlice = createSlice({
   reducers: {
     saveLoginUser: (state, action) => {
       const user = state;
-      const { uid, name, email, picture } = action.payload;
+      const response = action.payload;
 
-      user.uid = uid;
-      user.name = name;
-      user.email = email;
-      user.picture = picture;
+      user.uid = response.uid;
+      user.email = response.email;
+      user.name = response.name;
+      user.picture = response.picture;
     },
   },
 });
 
 export const { saveLoginUser } = loginSlice.actions;
+
+export const selectLogin = (state: State) => state.login;
+
+export const selectLoginImg = (state: State) => state.login.picture;
 
 export default loginSlice.reducer;

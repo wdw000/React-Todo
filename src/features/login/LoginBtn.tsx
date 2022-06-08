@@ -1,29 +1,31 @@
+import { isEqual } from "lodash";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { saveLoginUser } from "./loginSlice";
-import { isEqual } from "lodash";
+import { saveLoginUser, selectLogin } from "./loginSlice";
 
 function LoginBtn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user: User = useSelector((state: State) => state.login);
+  const user = useSelector(selectLogin);
 
-  function handleCallbackResponse(res: any) {
+  async function handleCallbackResponse(res: any) {
     if (res) {
-      fetch(`${process.env.REACT_APP_BACK_URL}/todo/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
-        body: JSON.stringify({
-          jwt: res.credential,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data: User) => {
-          dispatch(saveLoginUser(data));
-        });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACK_URL}/todo/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify({
+            jwt: res.credential,
+          }),
+        }
+      );
+
+      const user = await response.json();
+      dispatch(saveLoginUser(user));
     }
   }
 
@@ -43,14 +45,14 @@ function LoginBtn() {
   });
 
   useEffect(() => {
-    const intitialUser: User = {
+    const initialLoginUser: User = {
       uid: "",
-      name: "",
       email: "",
+      name: "",
       picture: "",
     };
 
-    if (!isEqual(user, intitialUser)) {
+    if (!isEqual(initialLoginUser, user)) {
       navigate("main", { replace: true });
     } else {
       navigate("/");

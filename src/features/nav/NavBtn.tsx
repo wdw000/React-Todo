@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./NavBtn.css";
-import { changeNavState } from "./navSlice";
+import { changeNavState, selectNavState } from "./navSlice";
 
 interface navBtnProps {
   buttons: string[];
@@ -11,7 +11,7 @@ interface navBtnProps {
 function NavBtn(props: navBtnProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const navState = useSelector((state: State) => state.nav.navState);
+  const navState = useSelector(selectNavState);
 
   const navButtons = props.buttons.map((btn) => {
     return (

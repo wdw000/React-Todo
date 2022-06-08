@@ -17,4 +17,6 @@ export const navSlice = createSlice({
 
 export const { changeNavState } = navSlice.actions;
 
+export const selectNavState = (state: State) => state.nav.navState;
+
 export default navSlice.reducer;

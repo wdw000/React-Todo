@@ -103,8 +103,8 @@ interface Window {
 
 interface User {
   uid: string;
-  name: string;
   email: string;
+  name: string;
   picture: string;
 }
 
