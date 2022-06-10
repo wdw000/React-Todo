@@ -112,7 +112,12 @@ interface Nav {
   navState: "List" | "Calendar" | "Chart";
 }
 
+interface AddBtn {
+  isAdd: boolean;
+}
+
 interface State {
   login: User;
   nav: Nav;
+  addBtn: AddBtn;
 }

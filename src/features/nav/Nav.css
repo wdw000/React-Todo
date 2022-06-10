@@ -1,7 +1,8 @@
 header {
-  background-color: #f4f4f4;
+  background-color: var(--light-color);
   display: flex;
   flex-direction: row;
+  box-shadow: var(--light-shadow);
 }
 
 .header-left {

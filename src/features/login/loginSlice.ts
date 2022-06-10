@@ -27,6 +27,8 @@ export const { saveLoginUser } = loginSlice.actions;
 
 export const selectLogin = (state: State) => state.login;
 
+export const selectUid = (state: State) => state.login.uid;
+
 export const selectLoginImg = (state: State) => state.login.picture;
 
 export default loginSlice.reducer;

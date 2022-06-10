@@ -1,0 +1,31 @@
+.TodoListInput {
+  position: absolute;
+  width: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: solid black 1px;
+  padding: 1rem;
+}
+
+.TodoListInput > div {
+  display: flex;
+  align-items: center;
+  border: solid black 1px;
+  margin-bottom: 1rem;
+}
+
+.TodoListInput > div > input {
+  flex: 1;
+  height: 5vh;
+  border: none;
+  background-color: transparent;
+}
+
+.TodoListInput > button {
+  background-color: var(--light-color);
+  border: none;
+  width: 100%;
+  height: 2rem;
+  border-radius: 2rem;
+}
