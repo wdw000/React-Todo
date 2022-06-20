@@ -100,24 +100,3 @@ interface Window {
     };
   };
 }
-
-interface User {
-  uid: string;
-  email: string;
-  name: string;
-  picture: string;
-}
-
-interface Nav {
-  navState: "List" | "Calendar" | "Chart";
-}
-
-interface AddBtn {
-  isAdd: boolean;
-}
-
-interface State {
-  login: User;
-  nav: Nav;
-  addBtn: AddBtn;
-}

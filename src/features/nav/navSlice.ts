@@ -1,4 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
+
+interface Nav {
+  navState: "List" | "Calendar" | "Chart";
+}
 
 const initialState: Nav = {
   navState: "List",
@@ -17,6 +22,6 @@ export const navSlice = createSlice({
 
 export const { changeNavState } = navSlice.actions;
 
-export const selectNavState = (state: State) => state.nav.navState;
+export const selectNavState = (state: RootState) => state.nav.navState;
 
 export default navSlice.reducer;

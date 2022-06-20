@@ -1,28 +1,47 @@
 .TodoListInput {
   position: absolute;
+  z-index: 100;
   width: 80%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border: solid black 1px;
   padding: 1rem;
+  background-color: white;
 }
 
-.TodoListInput > div {
+.TodoListInput > button {
+  position: relative;
+  margin-bottom: 1rem;
+  left: 100%;
+  transform: translateX(-100%);
+}
+
+.TodoListInput > form > div:first-child {
   display: flex;
   align-items: center;
   border: solid black 1px;
   margin-bottom: 1rem;
 }
 
-.TodoListInput > div > input {
+.TodoListInput > form > div + div {
+  width: fit-content;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+}
+
+.TodoListInput > form > div + div > input {
+  margin: 0 0.5rem;
+}
+
+.TodoListInput > form > div:first-child > input {
   flex: 1;
   height: 5vh;
   border: none;
   background-color: transparent;
 }
 
-.TodoListInput > button {
+.TodoListInput > form > button {
   background-color: var(--light-color);
   border: none;
   width: 100%;

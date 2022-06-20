@@ -9,6 +9,7 @@
   color: var(--light-list-checked-color);
   font-size: 3rem;
   box-shadow: var(--light-shadow);
+  z-index: 100;
 
   transition-duration: 0.1s;
 }

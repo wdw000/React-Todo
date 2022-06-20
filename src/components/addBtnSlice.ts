@@ -1,4 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../app/store";
+
+interface AddBtn {
+  isAdd: boolean;
+}
 
 const initialState: AddBtn = {
   isAdd: false,
@@ -18,8 +23,8 @@ export const addBtnSlice = createSlice({
 
 export const { changeIsAdd } = addBtnSlice.actions;
 
-export const selectAddBtn = (state: State) => state.addBtn;
+export const selectAddBtn = (state: RootState) => state.addBtn;
 
-export const selectIsAdd = (state: State) => state.addBtn.isAdd;
+export const selectIsAdd = (state: RootState) => state.addBtn.isAdd;
 
 export default addBtnSlice.reducer;

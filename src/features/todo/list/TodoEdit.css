@@ -1,0 +1,31 @@
+.TodoEdit {
+  border: solid 0.4rem var(--light-list-checked-color);
+  margin: 2rem 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  height: 10rem;
+  position: relative;
+}
+
+.TodoEdit > form {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.TodoEdit .edit-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.TodoEdit .edit-bot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.TodoEdit input {
+  font-size: 1rem;
+}

@@ -1,4 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
+
+interface User {
+  uid: string;
+  email: string;
+  name: string;
+  picture: string;
+}
 
 const initialState: User = {
   uid: "",
@@ -25,10 +33,10 @@ export const loginSlice = createSlice({
 
 export const { saveLoginUser } = loginSlice.actions;
 
-export const selectLogin = (state: State) => state.login;
+export const selectLogin = (state: RootState) => state.login;
 
-export const selectUid = (state: State) => state.login.uid;
+export const selectUid = (state: RootState) => state.login.uid;
 
-export const selectLoginImg = (state: State) => state.login.picture;
+export const selectLoginImg = (state: RootState) => state.login.picture;
 
 export default loginSlice.reducer;

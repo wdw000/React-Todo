@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import store from "./app/store";
+import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./features/login/Login";
@@ -17,20 +17,18 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/main" element={<PrivateRoute component={<App />} />}>
-            <Route path="list" element={<TodoList />} />
-            <Route path="calendar" element={<TodoCalendar />} />
-            <Route path="chart" element={<TodoChart />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />}></Route>
+        <Route path="/main" element={<PrivateRoute component={<App />} />}>
+          <Route path="list" element={<TodoList />} />
+          <Route path="calendar" element={<TodoCalendar />} />
+          <Route path="chart" element={<TodoChart />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

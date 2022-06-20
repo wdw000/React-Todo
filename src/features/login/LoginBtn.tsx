@@ -45,7 +45,7 @@ function LoginBtn() {
   });
 
   useEffect(() => {
-    const initialLoginUser: User = {
+    const initialLoginUser = {
       uid: "",
       email: "",
       name: "",
