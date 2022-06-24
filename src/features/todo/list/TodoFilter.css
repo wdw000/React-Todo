@@ -1,0 +1,35 @@
+.TodoFilter {
+  margin: 1rem 2rem;
+  position: relative;
+}
+
+.TodoFilter > .date-control {
+  width: fit-content;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+.TodoFilter > .sort-box {
+  position: absolute;
+  transform: translateY(-100%);
+  right: 0;
+}
+.TodoFilter > .date-control > button {
+  background-color: transparent;
+  font-size: inherit;
+  border: none;
+  margin: 0 0.5rem;
+}
+
+.TodoFilter .sort-list {
+  display: flex;
+}
+
+.TodoFilter .sort-list > ul {
+  display: flex;
+}
+
+.TodoFilter .sort-list > span {
+  margin: 0 0.5rem;
+}

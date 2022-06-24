@@ -9,8 +9,8 @@ import moment from "moment";
 export default function TodoListInput() {
   const [content, setContent] = useState("");
   const [important, setImportant] = useState(false);
-  const [startDate, setStartDate] = useState(moment().format().slice(0, 10));
-  const [endDate, setEndDate] = useState(moment().format().slice(0, 10));
+  const [startDate, setStartDate] = useState(moment().format("YYYY-MM-DD"));
+  const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
   const uid = useSelector(selectUid);
   const dispatch = useDispatch();
 
@@ -66,16 +66,22 @@ export default function TodoListInput() {
 
     dispatch(todoAdded(todo));
     setContent("");
-    setStartDate(moment().format().slice(0, 10));
-    setEndDate(moment().format().slice(0, 10));
+    setStartDate(moment().format("YYYY-MM-DD"));
+    setEndDate(moment().format("YYYY-MM-DD"));
     setImportant(false);
   }
 
   return (
     <div className="TodoListInput">
-      <button className="click" onClick={() => handleCloseBtn()}>
-        close
-      </button>
+      <div className="top-menu">
+        <button className="click" onClick={() => handleCloseBtn()}>
+          X
+        </button>
+        <div>
+          <label htmlFor="closeCheck">저장 후 창 닫기</label>
+          <input type="checkbox" id="closeCheck" />
+        </div>
+      </div>
 
       <form
         onSubmit={(event: React.ChangeEvent<HTMLFormElement>) =>

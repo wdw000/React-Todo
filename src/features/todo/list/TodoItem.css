@@ -1,23 +1,36 @@
 .TodoItem {
   border: solid 0.4rem var(--light-list-color);
-  margin: 2rem 1rem;
+  margin: 1rem 1rem;
+  margin-bottom: 2rem;
   padding: 1rem;
   border-radius: 1rem;
-  height: 10rem;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.TodoItem > div {
+div[class*="TodoItem done"] {
+  border-color: red;
+}
+
+.TodoItem > .top {
+  margin-bottom: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.TodoItem .dates {
+.TodoItem > .bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.TodoItem .dates > div {
   border: solid black 2px;
   border-radius: 10rem;
   padding: 0.1rem 0.5rem;
+  width: fit-content;
+  margin-bottom: 1rem;
 }

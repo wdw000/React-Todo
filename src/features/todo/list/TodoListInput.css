@@ -10,11 +10,20 @@
   background-color: white;
 }
 
-.TodoListInput > button {
+.TodoListInput > .top-menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.TodoListInput > .top-menu > button {
   position: relative;
+  height: 1.5rem;
+  width: 2rem;
+  border-radius: 2rem;
+  border: none;
+  background-color: rgba(255, 0, 0, 0.5);
+  font-weight: bold;
   margin-bottom: 1rem;
-  left: 100%;
-  transform: translateX(-100%);
 }
 
 .TodoListInput > form > div:first-child {

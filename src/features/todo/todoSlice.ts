@@ -6,6 +6,16 @@ interface asyncInitial<T> {
   items: T[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null | undefined;
+  date: {
+    list: string;
+    calendar: string;
+  };
+  order: {
+    filter: "all" | "incompleted" | "completed";
+    latest: boolean;
+    isStart: boolean;
+    important: boolean;
+  };
 }
 
 export interface Todo {
@@ -22,6 +32,16 @@ const initialState: asyncInitial<Todo> = {
   items: [],
   status: "idle",
   error: null,
+  date: {
+    calendar: moment().format("YYYY-MM"),
+    list: moment().format("YYYY-MM-DD"),
+  },
+  order: {
+    filter: "all",
+    latest: true,
+    isStart: true,
+    important: true,
+  },
 };
 
 export const fetchTodos = createAsyncThunk(
@@ -41,8 +61,9 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     todoAdded: (state, action) => {
-      state.items.push(action.payload);
+      state.items.unshift(action.payload);
     },
+
     todoUpdated: (state, action) => {
       const { id, content, important, startDate, endDate } = action.payload;
       const existingTodo = state.items.find((todo) => todo.id === id);
@@ -54,8 +75,48 @@ export const todoSlice = createSlice({
         existingTodo.end_date = endDate;
       }
     },
+
     todoDeleted: (state, action) => {
       state.items = state.items.filter((todo) => todo.id !== action.payload);
+    },
+
+    todoCompleted: (state, action) => {
+      const id = action.payload;
+      const existingTodo = state.items.find((todo) => todo.id === id);
+
+      if (existingTodo) {
+        existingTodo.completed = !existingTodo.completed;
+      }
+    },
+
+    listDateAdd: (state) => {
+      const addDate = moment(state.date.list).add(1, "days").toDate();
+      state.date.list = moment(addDate).format("YYYY-MM-DD");
+    },
+
+    listDateSub: (state) => {
+      const subDate = moment(state.date.list).subtract(1, "days").toDate();
+      state.date.list = moment(subDate).format("YYYY-MM-DD");
+    },
+
+    listDateToday: (state) => {
+      state.date.list = moment().format("YYYY-MM-DD");
+    },
+
+    changeFilter: (state, action) => {
+      state.order.filter = action.payload;
+    },
+
+    changeLatest: (state, action) => {
+      state.order.latest = action.payload;
+    },
+
+    changeIsStart: (state, action) => {
+      state.order.isStart = action.payload;
+    },
+
+    changeImportant: (state) => {
+      state.order.important = !state.order.important;
     },
   },
   extraReducers(builder) {
@@ -76,10 +137,25 @@ export const todoSlice = createSlice({
 
 export const selectFetchTodosStatus = (state: RootState) => state.todo.status;
 
-export const selectTodayTodos = (state: RootState) =>
-  state.todo.items.filter(
-    (item) => item.end_date >= moment().format().slice(0, 10)
-  );
-export const { todoAdded, todoUpdated, todoDeleted } = todoSlice.actions;
+export const selectListTodos = (state: RootState) =>
+  state.todo.items.filter((item) => item.end_date >= state.todo.date.list);
+
+export const selectListDate = (state: RootState) => state.todo.date.list;
+
+export const selectOrder = (state: RootState) => state.todo.order;
+
+export const {
+  todoAdded,
+  todoUpdated,
+  todoDeleted,
+  todoCompleted,
+  listDateAdd,
+  listDateSub,
+  listDateToday,
+  changeFilter,
+  changeLatest,
+  changeIsStart,
+  changeImportant,
+} = todoSlice.actions;
 
 export default todoSlice.reducer;
