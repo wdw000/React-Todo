@@ -118,6 +118,22 @@ export const todoSlice = createSlice({
     changeImportant: (state) => {
       state.order.important = !state.order.important;
     },
+
+    calendarMonthAdd: (state) => {
+      const addMonth = moment(state.date.calendar).add(1, "month").toDate();
+      state.date.calendar = moment(addMonth).format("YYYY-MM");
+    },
+
+    calendarMonthSub: (state) => {
+      const subMonth = moment(state.date.calendar)
+        .subtract(1, "month")
+        .toDate();
+      state.date.calendar = moment(subMonth).format("YYYY-MM");
+    },
+
+    calendarMonthToday: (state) => {
+      state.date.calendar = moment().format("YYYY-MM");
+    },
   },
   extraReducers(builder) {
     builder
@@ -142,7 +158,15 @@ export const selectListTodos = (state: RootState) =>
 
 export const selectListDate = (state: RootState) => state.todo.date.list;
 
+export const selectCalendarDate = (state: RootState) =>
+  state.todo.date.calendar;
+
 export const selectOrder = (state: RootState) => state.todo.order;
+
+export const selectMothTodos = (state: RootState) =>
+  state.todo.items.filter(
+    (item) => state.todo.date.calendar === item.start_date.slice(0, 7)
+  );
 
 export const {
   todoAdded,
@@ -156,6 +180,9 @@ export const {
   changeLatest,
   changeIsStart,
   changeImportant,
+  calendarMonthAdd,
+  calendarMonthSub,
+  calendarMonthToday,
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

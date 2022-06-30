@@ -1,0 +1,63 @@
+.TodoCalendar {
+  margin: 1rem;
+}
+
+.TodoCalendar .row {
+  display: flex;
+  height: 5rem;
+}
+
+.TodoCalendar .row > div {
+  flex: 1;
+  padding: 0.3em;
+}
+
+.TodoCalendar .day {
+  height: 2rem;
+  text-align: center;
+  border-bottom: solid 2px var(--light-color);
+}
+
+.TodoCalendar .day > div:not(:nth-last-child(1)) {
+  border-right: solid 2px var(--light-color);
+}
+
+.TodoCalendar .dates > .row > div:not(:nth-last-child(1)) {
+  border-right: solid 2px var(--light-color);
+}
+
+.TodoCalendar .dates > .row:not(:nth-last-child(1)) {
+  border-bottom: solid 2px var(--light-color);
+}
+
+.TodoCalendar .sun {
+  color: red;
+}
+
+.TodoCalendar .sat {
+  color: blue;
+}
+
+.TodoCalendar .not-this-month {
+  color: lightgray;
+}
+
+.TodoCalendar .today {
+  background-color: rgba(160, 160, 160, 0.1);
+}
+
+.TodoCalendar .dates .closed {
+  background-color: red;
+  height: 1em;
+  width: 1em;
+  border-radius: 1.2em;
+  display: flex;
+}
+
+.TodoCalendar .dates .proceed {
+  background-color: orange;
+  height: 1em;
+  width: 1em;
+  border-radius: 1.2em;
+  display: flex;
+}

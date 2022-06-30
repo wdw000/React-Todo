@@ -25,11 +25,8 @@ const TodoItem = (props: itemProps) => {
     setIsEdit(!isEdit);
   }
 
-  async function handleItemClick(event: React.MouseEvent<HTMLElement>) {
-    const editBtn = document.querySelector(".TodoItem .right > .edit");
-    const removeBtn = document.querySelector(".TodoItem .right .remove");
-
-    if (event.target !== editBtn && event.target !== removeBtn) {
+  async function handleItemClick(event: any) {
+    if (event.target.tagName !== "BUTTON") {
       const respone = await fetch(
         `${process.env.REACT_APP_BACK_URL}/todo/${props.todo.id}`,
         {
