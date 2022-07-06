@@ -1,7 +1,7 @@
 import moment from "moment";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Todo, todoCompleted, todoDeleted } from "../todoSlice";
+import { Todo, todoCompleted, todoDeleted } from "../features/todo/todoSlice";
 import TodoEdit from "./TodoEdit";
 import "./TodoItem.css";
 

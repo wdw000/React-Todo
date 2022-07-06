@@ -1,0 +1,24 @@
+.TodoChart {
+  margin: 2rem;
+}
+
+.TodoChart > .chart {
+  height: 80vh;
+}
+
+.TodoChart > .chart-list-counter {
+  float: right;
+  display: flex;
+  align-items: baseline;
+  z-index: 10;
+  position: relative;
+}
+
+.TodoChart .chart-list-counter > div {
+  width: 3em;
+  text-align: center;
+}
+
+.TodoChart .chart-list-counter > span {
+  margin-right: 1em;
+}

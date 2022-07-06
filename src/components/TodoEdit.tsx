@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Todo, todoUpdated } from "../todoSlice";
+import { Todo, todoUpdated } from "../features/todo/todoSlice";
 import "./TodoEdit.css";
 
 interface editProps {

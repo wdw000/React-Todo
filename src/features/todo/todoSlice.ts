@@ -153,6 +153,8 @@ export const todoSlice = createSlice({
 
 export const selectFetchTodosStatus = (state: RootState) => state.todo.status;
 
+export const selectAllTodos = (state: RootState) => state.todo.items;
+
 export const selectListTodos = (state: RootState) =>
   state.todo.items.filter((item) => item.end_date >= state.todo.date.list);
 
@@ -163,9 +165,22 @@ export const selectCalendarDate = (state: RootState) =>
 
 export const selectOrder = (state: RootState) => state.todo.order;
 
-export const selectMothTodos = (state: RootState) =>
+export const selectMonthTodos = (state: RootState) =>
   state.todo.items.filter(
     (item) => state.todo.date.calendar === item.start_date.slice(0, 7)
+  );
+
+export function selectDateTodos(date: string | null) {
+  const item = (state: RootState) =>
+    state.todo.items.filter((item) => item.end_date === date);
+
+  return item;
+}
+
+export const selectCloseTodos = (state: RootState) =>
+  state.todo.items.filter(
+    (item) =>
+      item.end_date < moment().format("YYYY-MM-DD") && item.completed === false
   );
 
 export const {

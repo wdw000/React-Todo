@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./TodoCalendar.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,13 +7,18 @@ import {
   calendarMonthSub,
   calendarMonthToday,
   selectCalendarDate,
-  selectMothTodos,
+  selectMonthTodos,
 } from "../todoSlice";
+import TodoCalendarList from "./TodoCalendarList";
 
 function TodoCalendar() {
   const calendarDate = useSelector(selectCalendarDate);
-  const thisMonthTodos = useSelector(selectMothTodos);
+  const thisMonthTodos = useSelector(selectMonthTodos);
   const dispatch = useDispatch();
+  const [clickDate, setClickDate] = useState<string | null>(null);
+  const [isClick, setIsClick] = useState(false);
+
+  let item;
 
   function drawCalendar() {
     const calendarBox = document.querySelector(".TodoCalendar > .calendar");
@@ -60,7 +65,9 @@ function TodoCalendar() {
       for (let j = i * 7; j < i * 7 + 7; j++) {
         const dateBox = document.createElement("div");
         const date = document.createTextNode(calendar[j].toString());
-        dateBox.classList.add(`date-${calendar[j]}`);
+        dateBox.classList.add(`date-${calendar[j]}`, "click");
+        dateBox.addEventListener("click", handleDateClick);
+
         if (j % 7 === 0) {
           dateBox.classList.add("sun");
         }
@@ -74,15 +81,15 @@ function TodoCalendar() {
           calendarDate === moment().format("YYYY-MM")
         ) {
           dateBox.classList.add("today");
-          dateBox.appendChild(date);
-        } else {
-          dateBox.appendChild(date);
         }
 
         if (j < preDates.length || j >= calendar.length - nextDates.length) {
           dateBox.classList.add("not-this-month");
+          dateBox.removeEventListener("click", handleDateClick);
+          dateBox.classList.remove("click");
         }
 
+        dateBox.appendChild(date);
         rowDiv.appendChild(dateBox);
       }
       calendarDateBox.appendChild(rowDiv);
@@ -139,40 +146,84 @@ function TodoCalendar() {
     });
   }
 
-  function handleDateClick() {}
+  function drawCompletedTodo() {
+    const todoEndDates = thisMonthTodos.map((item) => item.end_date);
+    const todoEndDateSet = new Set(todoEndDates);
+
+    todoEndDateSet.forEach((item) => {
+      const todos = thisMonthTodos.filter((todo) => todo.end_date === item);
+      const todosCompleted = todos.filter((todo) => todo.completed === true);
+
+      if (todos.length === todosCompleted.length) {
+        const completedDate = moment(item).format("D");
+
+        const completedBox = document.createElement("div");
+        const completedDateBox = document.querySelector(
+          `.TodoCalendar .dates .date-${completedDate}:not(.not-this-month)`
+        );
+
+        completedBox.classList.add("completed");
+        completedDateBox?.appendChild(completedBox);
+      }
+    });
+  }
+
+  function handleDateClick(event: any) {
+    const thisClassList = event.currentTarget.classList;
+
+    for (const iterator of thisClassList) {
+      if (iterator.includes("date")) {
+        const date = iterator.replace("date-", "");
+        const thisDate =
+          date.length === 1
+            ? `${calendarDate}-0${date}`
+            : `${calendarDate}-${date}`;
+
+        setClickDate(thisDate);
+        setIsClick(true);
+      }
+    }
+  }
 
   useEffect(() => {
     removeCalendar();
     drawCalendar();
     drawClosedTodo();
     drawproceedTodo();
+    drawCompletedTodo();
   });
 
-  return (
-    <div className="TodoCalendar">
-      <div className="month-controler">
-        <div>{calendarDate}</div>
+  if (!isClick) {
+    item = (
+      <div className="TodoCalendar">
+        <div className="month-controler">
+          <div>{calendarDate}</div>
 
-        <div className="btn-group">
-          <button onClick={() => dispatch(calendarMonthSub())}>&lt;</button>
-          <button onClick={() => dispatch(calendarMonthToday())}>오늘</button>
-          <button onClick={() => dispatch(calendarMonthAdd())}>&gt;</button>
+          <div className="btn-group">
+            <button onClick={() => dispatch(calendarMonthSub())}>&lt;</button>
+            <button onClick={() => dispatch(calendarMonthToday())}>오늘</button>
+            <button onClick={() => dispatch(calendarMonthAdd())}>&gt;</button>
+          </div>
+        </div>
+
+        <div className="calendar">
+          <div className="day row">
+            <div className="sun">일</div>
+            <div>월</div>
+            <div>화</div>
+            <div>수</div>
+            <div>목</div>
+            <div>금</div>
+            <div className="sat">토</div>
+          </div>
         </div>
       </div>
+    );
+  } else {
+    item = <TodoCalendarList date={clickDate} setIsClick={setIsClick} />;
+  }
 
-      <div className="calendar">
-        <div className="day row">
-          <div className="sun">일</div>
-          <div>월</div>
-          <div>화</div>
-          <div>수</div>
-          <div>목</div>
-          <div>금</div>
-          <div className="sat">토</div>
-        </div>
-      </div>
-    </div>
-  );
+  return <div>{item}</div>;
 }
 
 export default TodoCalendar;

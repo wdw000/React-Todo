@@ -48,6 +48,7 @@
 
 .TodoCalendar .dates .closed {
   background-color: red;
+  border: solid 1px black;
   height: 1em;
   width: 1em;
   border-radius: 1.2em;
@@ -55,7 +56,17 @@
 }
 
 .TodoCalendar .dates .proceed {
-  background-color: orange;
+  background-color: yellow;
+  border: solid 1px black;
+  height: 1em;
+  width: 1em;
+  border-radius: 1.2em;
+  display: flex;
+}
+
+.TodoCalendar .dates .completed {
+  background-color: lightgreen;
+  border: solid 1px black;
   height: 1em;
   width: 1em;
   border-radius: 1.2em;

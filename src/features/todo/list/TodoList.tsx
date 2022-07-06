@@ -2,13 +2,15 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import TodoAddBtn from "../../../components/TodoAddBtn";
-import { selectListTodos, selectOrder } from "../todoSlice";
+import { selectCloseTodos, selectListTodos, selectOrder } from "../todoSlice";
 import { TodoFilter } from "./TodoFilter";
-import TodoItem from "./TodoItem";
+import TodoItem from "../../../components/TodoItem";
+import TodoClosedWarning from "./TodoClosedWarning";
 
 export default function TodoList() {
   const data = useSelector(selectListTodos);
   const order = useSelector(selectOrder);
+  const closeTodos = useSelector(selectCloseTodos);
   let todos;
 
   switch (order.filter) {
@@ -29,6 +31,7 @@ export default function TodoList() {
     <div className="TodoList">
       <TodoFilter />
       <TodoAddBtn />
+      {closeTodos.length !== 0 && <TodoClosedWarning />}
       {item}
     </div>
   );
