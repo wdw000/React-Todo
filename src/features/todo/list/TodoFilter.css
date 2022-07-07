@@ -1,35 +1,53 @@
 .TodoFilter {
-  margin: 1rem 2rem;
-  position: relative;
+  margin: 0 2rem;
 }
 
-.TodoFilter > .date-control {
-  width: fit-content;
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin: 0 auto;
+.TodoFilter .date-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
-.TodoFilter > .sort-box {
-  position: absolute;
-  transform: translateY(-100%);
-  right: 0;
+.TodoFilter .date-control > .date {
+  font-size: 1.5rem;
 }
-.TodoFilter > .date-control > button {
-  background-color: transparent;
-  font-size: inherit;
-  border: none;
-  margin: 0 0.5rem;
+
+.TodoFilter .sort-box {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.TodoFilter .sort-box > span {
+  margin-left: auto;
+}
+
+.TodoFilter .sort-box .extand {
+  display: inline-block;
+  transform: rotate(-90deg);
+  font-size: 1.3em;
+  margin-left: 0.5rem;
 }
 
 .TodoFilter .sort-list {
-  display: flex;
+  margin-top: 1rem;
 }
 
 .TodoFilter .sort-list > ul {
   display: flex;
+  margin-bottom: 1rem;
 }
 
-.TodoFilter .sort-list > span {
+.TodoFilter .sort-list > ul > li {
+  flex: 1;
+  text-align: center;
   margin: 0 0.5rem;
+  padding: 1rem 0;
+  border-radius: 1rem;
+  background-color: var(--light-color);
+}
+
+.TodoFilter .sort-list > ul > .on {
+  background-color: var(--light-list-color);
 }
