@@ -18,7 +18,59 @@ div[class*="TodoItem done"] {
   margin-bottom: 2rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.TodoItem > .top .context-box {
+  flex: 1;
+  margin-right: 1rem;
+  overflow: hidden;
+}
+
+.TodoItem > .top .context-box[class~="simply"] {
+  overflow: hidden;
+}
+
+.TodoItem > .top .context-box[class~="more"] {
+  overflow: visible;
+}
+
+.TodoItem > .top .context {
+  padding-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.TodoItem > .top .context[class~="simply"] {
+  padding-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.TodoItem > .top .context[class~="more"] {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.TodoItem .context-box > button {
+  background-color: transparent;
+  border: solid var(--light-list-color) 2px;
+  border-radius: 1rem;
+  margin-top: 0.5rem;
+  padding: 0.3em 1em;
+}
+
+.TodoItem .top > .important {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.TodoItem .top > div > img {
+  height: 100%;
+  width: 100%;
 }
 
 .TodoItem > .bottom {

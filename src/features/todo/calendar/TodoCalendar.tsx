@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./TodoCalendar.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,18 +10,22 @@ import {
   selectMonthTodos,
 } from "../todoSlice";
 import TodoCalendarList from "./TodoCalendarList";
+import TodoAddBtn from "../../../components/TodoAddBtn";
 
 function TodoCalendar() {
   const calendarDate = useSelector(selectCalendarDate);
   const thisMonthTodos = useSelector(selectMonthTodos);
   const dispatch = useDispatch();
-  const [clickDate, setClickDate] = useState<string | null>(null);
+  const [clickDate, setClickDate] = useState("");
   const [isClick, setIsClick] = useState(false);
 
-  let item;
+  const calendarBox = useRef<HTMLDivElement>(null);
 
   function drawCalendar() {
-    const calendarBox = document.querySelector(".TodoCalendar > .calendar");
+    const closed = getClosedTodo();
+    const proceed = getProceedTodo();
+    const completed = getCompletedTodo();
+
     const preDate = parseInt(
       moment(calendarDate).subtract(1, "month").endOf("month").format("DD")
     );
@@ -56,54 +60,85 @@ function TodoCalendar() {
 
     const calendar = [...preDates, ...thisDates, ...nextDates];
 
-    const calendarDateBox = document.createElement("div");
-    calendarDateBox.classList.add("dates");
+    let row: JSX.Element[] = [];
+    let rowDiv: JSX.Element | null;
+    let calendarDates: JSX.Element[] = [];
 
     for (let i = 0; i < calendar.length / 7; i++) {
-      const rowDiv = document.createElement("div");
-      rowDiv.classList.add("row");
+      rowDiv = null;
+      row = [];
+      let dateStatus: JSX.Element | null;
+
       for (let j = i * 7; j < i * 7 + 7; j++) {
-        const dateBox = document.createElement("div");
-        const date = document.createTextNode(calendar[j].toString());
-        dateBox.classList.add(`date-${calendar[j]}`, "click");
-        dateBox.addEventListener("click", handleDateClick);
+        const dateBoxClass: string[] = [];
+        let dateBoxOnClick = false;
+        let dateBox: JSX.Element | null = null;
+        dateStatus = null;
 
         if (j % 7 === 0) {
-          dateBox.classList.add("sun");
+          dateBoxClass.push("sun");
         }
 
         if (j % 7 === 6) {
-          dateBox.classList.add("sat");
+          dateBoxClass.push("sat");
         }
 
         if (
           j === parseInt(moment().format("D")) + preDates.length - 1 &&
           calendarDate === moment().format("YYYY-MM")
         ) {
-          dateBox.classList.add("today");
+          dateBoxClass.push("today");
         }
 
         if (j < preDates.length || j >= calendar.length - nextDates.length) {
-          dateBox.classList.add("not-this-month");
-          dateBox.removeEventListener("click", handleDateClick);
-          dateBox.classList.remove("click");
+          dateBoxClass.push("not-this-month");
+        } else {
+          dateBoxClass.push("click");
+          dateBoxOnClick = true;
+          if (closed.has(calendar[j].toString())) {
+            dateStatus = <div className="closed"></div>;
+          } else if (proceed.has(calendar[j].toString())) {
+            dateStatus = <div className="proceed"></div>;
+          } else if (completed.includes(calendar[j].toString())) {
+            dateStatus = <div className="completed"></div>;
+          }
         }
 
-        dateBox.appendChild(date);
-        rowDiv.appendChild(dateBox);
+        if (!dateBoxOnClick) {
+          dateBox = (
+            <div className={dateBoxClass.join(" ")} key={`not${calendar[j]}`}>
+              {calendar[j].toString()}
+            </div>
+          );
+        } else {
+          dateBox = (
+            <div
+              className={dateBoxClass.join(" ")}
+              key={`${calendar[j]}`}
+              onClick={(e) => handleDateClick(e)}
+            >
+              {calendar[j].toString()}
+              {dateStatus}
+            </div>
+          );
+        }
+
+        row.push(dateBox);
       }
-      calendarDateBox.appendChild(rowDiv);
+      rowDiv = (
+        <div className="row" key={i}>
+          {row}
+        </div>
+      );
+      calendarDates.push(rowDiv);
     }
 
-    calendarBox?.appendChild(calendarDateBox);
+    const calendarDateDiv = <div className="dates">{calendarDates}</div>;
+
+    return calendarDateDiv;
   }
 
-  function removeCalendar() {
-    const calendar = document.querySelector(".TodoCalendar .dates");
-    calendar?.remove();
-  }
-
-  function drawClosedTodo() {
+  function getClosedTodo() {
     const items = thisMonthTodos.filter(
       (item) =>
         item.end_date < moment().format("YYYY-MM-DD") &&
@@ -113,17 +148,10 @@ function TodoCalendar() {
     const closeDates = items.map((item) => moment(item.end_date).format("D"));
     const set = new Set(closeDates);
 
-    set.forEach((item) => {
-      const closeWarningBox = document.createElement("div");
-      const closeDateBox = document.querySelector(
-        `.TodoCalendar .dates .date-${item}:not(.not-this-month)`
-      );
-      closeWarningBox.classList.add("closed");
-      closeDateBox?.appendChild(closeWarningBox);
-    });
+    return set;
   }
 
-  function drawproceedTodo() {
+  function getProceedTodo() {
     const proceedTodos = thisMonthTodos.filter(
       (item) =>
         item.end_date >= moment().format("YYYY-MM-DD") &&
@@ -135,95 +163,71 @@ function TodoCalendar() {
     );
     const set = new Set(proceedDates);
 
-    set.forEach((item) => {
-      const proceedBox = document.createElement("div");
-      const proceedDateBox = document.querySelector(
-        `.TodoCalendar .dates .date-${item}:not(.not-this-month)`
-      );
-
-      proceedBox.classList.add("proceed");
-      proceedDateBox?.appendChild(proceedBox);
-    });
+    return set;
   }
 
-  function drawCompletedTodo() {
+  function getCompletedTodo() {
     const todoEndDates = thisMonthTodos.map((item) => item.end_date);
     const todoEndDateSet = new Set(todoEndDates);
+    const result: string[] = [];
 
     todoEndDateSet.forEach((item) => {
       const todos = thisMonthTodos.filter((todo) => todo.end_date === item);
       const todosCompleted = todos.filter((todo) => todo.completed === true);
 
       if (todos.length === todosCompleted.length) {
-        const completedDate = moment(item).format("D");
-
-        const completedBox = document.createElement("div");
-        const completedDateBox = document.querySelector(
-          `.TodoCalendar .dates .date-${completedDate}:not(.not-this-month)`
-        );
-
-        completedBox.classList.add("completed");
-        completedDateBox?.appendChild(completedBox);
+        result.push(moment(item).format("D"));
       }
     });
+
+    return result;
   }
 
-  function handleDateClick(event: any) {
-    const thisClassList = event.currentTarget.classList;
+  function handleDateClick(event: React.MouseEvent<HTMLElement, MouseEvent>) {
+    const date = event.currentTarget.innerText;
+    const thisDate =
+      date.length === 1
+        ? `${calendarDate}-0${date}`
+        : `${calendarDate}-${date}`;
 
-    for (const iterator of thisClassList) {
-      if (iterator.includes("date")) {
-        const date = iterator.replace("date-", "");
-        const thisDate =
-          date.length === 1
-            ? `${calendarDate}-0${date}`
-            : `${calendarDate}-${date}`;
-
-        setClickDate(thisDate);
-        setIsClick(true);
-      }
-    }
+    setClickDate(thisDate);
+    setIsClick(true);
   }
 
-  useEffect(() => {
-    removeCalendar();
-    drawCalendar();
-    drawClosedTodo();
-    drawproceedTodo();
-    drawCompletedTodo();
-  });
+  const calendar = (
+    <div className="TodoCalendar">
+      <TodoAddBtn date={moment().format("YYYY-MM-DD")} />
+      <div className="month-controler">
+        <div>{calendarDate}</div>
 
-  if (!isClick) {
-    item = (
-      <div className="TodoCalendar">
-        <div className="month-controler">
-          <div>{calendarDate}</div>
-
-          <div className="btn-group">
-            <button onClick={() => dispatch(calendarMonthSub())}>&lt;</button>
-            <button onClick={() => dispatch(calendarMonthToday())}>오늘</button>
-            <button onClick={() => dispatch(calendarMonthAdd())}>&gt;</button>
-          </div>
-        </div>
-
-        <div className="calendar">
-          <div className="day row">
-            <div className="sun">일</div>
-            <div>월</div>
-            <div>화</div>
-            <div>수</div>
-            <div>목</div>
-            <div>금</div>
-            <div className="sat">토</div>
-          </div>
+        <div className="btn-group">
+          <button onClick={() => dispatch(calendarMonthSub())}>&lt;</button>
+          <button onClick={() => dispatch(calendarMonthToday())}>오늘</button>
+          <button onClick={() => dispatch(calendarMonthAdd())}>&gt;</button>
         </div>
       </div>
-    );
-  } else {
-    item = <TodoCalendarList date={clickDate} setIsClick={setIsClick} />;
-  }
 
-  return <div>{item}</div>;
+      <div className="calendar" ref={calendarBox}>
+        <div className="day row">
+          <div className="sun">일</div>
+          <div>월</div>
+          <div>화</div>
+          <div>수</div>
+          <div>목</div>
+          <div>금</div>
+          <div className="sat">토</div>
+        </div>
+      </div>
+
+      {drawCalendar()}
+    </div>
+  );
+
+  const calendarList = (
+    <TodoCalendarList date={clickDate} setIsClick={setIsClick} />
+  );
+
+  return <div>{isClick ? calendarList : calendar}</div>;
 }
 
 export default TodoCalendar;

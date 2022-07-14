@@ -1,0 +1,11 @@
+.TodoList .date-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 2rem;
+  margin-top: 1rem;
+}
+
+.TodoList .date-control > .date {
+  font-size: 1.5rem;
+}

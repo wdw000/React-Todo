@@ -1,5 +1,5 @@
 import { isEqual } from "lodash";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { saveLoginUser, selectLogin } from "./loginSlice";
@@ -8,6 +8,7 @@ function LoginBtn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(selectLogin);
+  const loginBtn = useRef<HTMLDivElement>(null);
 
   async function handleCallbackResponse(res: any) {
     if (res) {
@@ -35,9 +36,7 @@ function LoginBtn() {
       callback: handleCallbackResponse,
     });
 
-    const loginBtn = document.getElementById("google-login");
-
-    window.google.accounts.id.renderButton(loginBtn, {
+    window.google.accounts.id.renderButton(loginBtn.current, {
       type: "standard",
       theme: "outline",
       size: "large",
@@ -59,7 +58,7 @@ function LoginBtn() {
     }
   }, [user, navigate]);
 
-  return <div id="google-login"></div>;
+  return <div id="google-login" ref={loginBtn}></div>;
 }
 
 export default LoginBtn;

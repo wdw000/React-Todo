@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import "./TodoListInput.css";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUid } from "../../login/loginSlice";
-import { changeIsAdd } from "../../../components/addBtnSlice";
-import { Todo, todoAdded } from "../todoSlice";
 import moment from "moment";
+import { selectUid } from "../features/login/loginSlice";
+import { Todo, todoAdded } from "../features/todo/todoSlice";
+import "./TodoInput.css";
 
-export default function TodoListInput() {
+interface InputProps {
+  setIsAdd: Function;
+  date: string;
+}
+
+export default function TodoInput(props: InputProps) {
   const [content, setContent] = useState("");
   const [important, setImportant] = useState(false);
-  const [startDate, setStartDate] = useState(moment().format("YYYY-MM-DD"));
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
   const uid = useSelector(selectUid);
   const dispatch = useDispatch();
@@ -22,16 +25,12 @@ export default function TodoListInput() {
     setImportant(event.target.checked);
   }
 
-  function handleStartDate(event: React.ChangeEvent<HTMLInputElement>) {
-    setStartDate(event.target.value);
-  }
-
   function handleEndDate(event: React.ChangeEvent<HTMLInputElement>) {
     setEndDate(event.target.value);
   }
 
   function handleCloseBtn() {
-    dispatch(changeIsAdd());
+    props.setIsAdd();
   }
 
   async function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
@@ -41,7 +40,7 @@ export default function TodoListInput() {
       uid: uid,
       content: content,
       end_date: endDate,
-      startDate: startDate,
+      startDate: moment().format("YYYY-MM-DD"),
       important: important,
     });
 
@@ -53,22 +52,23 @@ export default function TodoListInput() {
       body: postBody,
     });
 
-    const result = await respone.json();
-    const todo: Todo = {
-      id: result.id,
-      completed: result.completed,
-      content: result.content,
-      important: result.important,
-      start_date: result.start_date,
-      end_date: result.end_date,
-      timestamp: result.timestamp,
-    };
+    if (respone.status === 201) {
+      const result = await respone.json();
+      const todo: Todo = {
+        id: result.id,
+        completed: result.completed,
+        content: result.content,
+        important: result.important,
+        start_date: result.start_date,
+        end_date: result.end_date,
+        timestamp: result.timestamp,
+      };
 
-    dispatch(todoAdded(todo));
-    setContent("");
-    setStartDate(moment().format("YYYY-MM-DD"));
-    setEndDate(moment().format("YYYY-MM-DD"));
-    setImportant(false);
+      dispatch(todoAdded(todo));
+      setContent("");
+      setEndDate(moment().format("YYYY-MM-DD"));
+      setImportant(false);
+    }
   }
 
   return (
@@ -111,19 +111,11 @@ export default function TodoListInput() {
         </div>
 
         <div>
-          <input
-            type="date"
-            id="start"
-            value={startDate}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleStartDate(event)
-            }
-          />
-          <span>~</span>
+          <label htmlFor="end">마감일</label>
           <input
             type="date"
             id="end"
-            value={endDate}
+            value={props.date}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               handleEndDate(event)
             }

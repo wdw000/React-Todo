@@ -37,3 +37,12 @@ header {
 .header-right > * {
   margin-left: 1rem;
 }
+
+.header-right > button {
+  font-size: 2rem;
+  height: 2rem;
+  width: 2rem;
+  background: transparent;
+  padding: 0;
+  border: none;
+}

@@ -11,7 +11,6 @@ interface editProps {
 export default function TodoEdit(props: editProps) {
   const [content, setContent] = useState(props.todo.content);
   const [important, setImportant] = useState(props.todo.important);
-  const [startDate, setStartDate] = useState(props.todo.start_date);
   const [endDate, setEndDate] = useState(props.todo.end_date);
 
   const dispatch = useDispatch();
@@ -24,21 +23,16 @@ export default function TodoEdit(props: editProps) {
     setImportant(event.target.checked);
   }
 
-  function handleStartDate(event: React.ChangeEvent<HTMLInputElement>) {
-    setStartDate(event.target.value);
-  }
-
   function handleEndDate(event: React.ChangeEvent<HTMLInputElement>) {
     setEndDate(event.target.value);
   }
 
-  async function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     interface updateBody {
       todoId: string;
       content: string;
-      startDate: string;
       endDate: string;
       important: boolean;
     }
@@ -47,7 +41,6 @@ export default function TodoEdit(props: editProps) {
       const body: updateBody = {
         todoId: props.todo.id,
         content: content,
-        startDate: startDate,
         endDate: endDate,
         important: important,
       };
@@ -66,7 +59,6 @@ export default function TodoEdit(props: editProps) {
             id: props.todo.id,
             content,
             important,
-            startDate,
             endDate,
           })
         );
@@ -74,25 +66,20 @@ export default function TodoEdit(props: editProps) {
 
       props.setIsEdit();
     } else {
+      // 업데이트 실패 시
       return;
     }
   }
 
   return (
     <div className="TodoEdit">
-      <form
-        onSubmit={(event: React.ChangeEvent<HTMLFormElement>) =>
-          handleSubmit(event)
-        }
-      >
+      <form onSubmit={(event) => handleSubmit(event)}>
         <div className="edit-top">
           <input
             type="text"
             id="content"
             value={content}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleContent(event)
-            }
+            onChange={(event) => handleContent(event)}
           />
           <div>
             <label htmlFor="important">중요</label>
@@ -100,31 +87,19 @@ export default function TodoEdit(props: editProps) {
               type="checkbox"
               id="important"
               checked={important}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleImportant(event)
-              }
+              onChange={(event) => handleImportant(event)}
             />
           </div>
         </div>
 
         <div className="edit-bot">
           <div>
-            <input
-              type="date"
-              id="startDate"
-              value={startDate}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleStartDate(event)
-              }
-            />
-            <span> ~ </span>
+            <label htmlFor="endDate">마감일 </label>
             <input
               type="date"
               id="endDate"
               value={endDate}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleEndDate(event)
-              }
+              onChange={(event) => handleEndDate(event)}
             />
           </div>
 

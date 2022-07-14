@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import TodoItem from "../../../components/TodoItem";
-import { selectCloseTodos } from "../todoSlice";
+import { selectCloseTodos, selectOrder } from "../todoSlice";
+import { sortTodo } from "./sortTodo";
 
 export default function TodoClosedWarning() {
   const [isMore, setIsMore] = useState(false);
   const closeTodos = useSelector(selectCloseTodos);
+  const order = useSelector(selectOrder);
+  const todos = sortTodo(closeTodos, order);
 
   function handleMoreBtn() {
     setIsMore(!isMore);
@@ -18,7 +21,7 @@ export default function TodoClosedWarning() {
     </div>
   );
 
-  const closeTodoItems = closeTodos.map((item) => (
+  const closeTodoItems = todos.map((item) => (
     <TodoItem todo={item} key={item.id} />
   ));
 

@@ -2,17 +2,6 @@
   margin: 0 2rem;
 }
 
-.TodoFilter .date-control {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-
-.TodoFilter .date-control > .date {
-  font-size: 1.5rem;
-}
-
 .TodoFilter .sort-box {
   margin-top: 1rem;
   display: flex;

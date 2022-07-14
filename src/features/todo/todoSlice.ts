@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 import { RootState } from "../../app/store";
 
-interface asyncInitial<T> {
+export interface asyncInitial<T> {
   items: T[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null | undefined;
@@ -65,13 +65,12 @@ export const todoSlice = createSlice({
     },
 
     todoUpdated: (state, action) => {
-      const { id, content, important, startDate, endDate } = action.payload;
+      const { id, content, important, endDate } = action.payload;
       const existingTodo = state.items.find((todo) => todo.id === id);
 
       if (existingTodo) {
         existingTodo.content = content;
         existingTodo.important = important;
-        existingTodo.start_date = startDate;
         existingTodo.end_date = endDate;
       }
     },
@@ -170,7 +169,7 @@ export const selectMonthTodos = (state: RootState) =>
     (item) => state.todo.date.calendar === item.start_date.slice(0, 7)
   );
 
-export function selectDateTodos(date: string | null) {
+export function selectDateTodos(date: string) {
   const item = (state: RootState) =>
     state.todo.items.filter((item) => item.end_date === date);
 

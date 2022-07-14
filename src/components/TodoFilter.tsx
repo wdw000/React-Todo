@@ -5,18 +5,14 @@ import {
   changeImportant,
   changeIsStart,
   changeLatest,
-  listDateAdd,
-  listDateSub,
-  listDateToday,
-  selectListDate,
   selectOrder,
-} from "../todoSlice";
+} from "../features/todo/todoSlice";
 import "./TodoFilter.css";
 
 export function TodoFilter() {
   const dispatch = useDispatch();
   const [isSort, setIsSort] = useState(false);
-  const date = useSelector(selectListDate).slice(2);
+
   const order = useSelector(selectOrder);
 
   function handleSortBtn() {
@@ -89,21 +85,6 @@ export function TodoFilter() {
 
   return (
     <div className="TodoFilter">
-      <div className="date-control">
-        <div className="date">{date}</div>
-        <div className="btn-group">
-          <button className="click" onClick={() => dispatch(listDateSub())}>
-            &lt;
-          </button>
-          <button className="click" onClick={() => dispatch(listDateToday())}>
-            오늘
-          </button>
-          <button className="click" onClick={() => dispatch(listDateAdd())}>
-            &gt;
-          </button>
-        </div>
-      </div>
-
       <div className="sort-box click">
         <span onClick={() => handleSortBtn()}>
           정렬<span className="extand off">&lt;</span>

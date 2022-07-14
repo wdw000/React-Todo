@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./NavBtn.css";
@@ -13,9 +13,15 @@ function NavBtn(props: navBtnProps) {
   const navigate = useNavigate();
   const navState = useSelector(selectNavState);
 
+  const [test, test2] = useState(["stirng"]);
+
   const navButtons = props.buttons.map((btn) => {
     return (
-      <li key={btn} className={"click " + btn} onClick={() => clickNavBtn(btn)}>
+      <li
+        key={btn}
+        className={"click " + (navState === btn && "on")}
+        onClick={() => clickNavBtn(btn)}
+      >
         <div>{btn}</div>
       </li>
     );
@@ -26,14 +32,6 @@ function NavBtn(props: navBtnProps) {
   }
 
   useEffect(() => {
-    const btnList = document.querySelectorAll(".NavBtn .click");
-    const onBtn = document.querySelector(`.NavBtn .${navState}`);
-
-    btnList.forEach((item) => {
-      item.classList.remove("on");
-    });
-    onBtn?.classList.add("on");
-
     switch (navState) {
       case "List":
         navigate("list");

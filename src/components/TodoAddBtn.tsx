@@ -1,14 +1,15 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import TodoListInput from "../features/todo/list/TodoListInput";
-import { changeIsAdd, selectIsAdd } from "./addBtnSlice";
+import React, { useState } from "react";
 import "./TodoAddBtn.css";
+import TodoInput from "./TodoInput";
 
-export default function TodoAddBtn() {
-  const dispatch = useDispatch();
-  const isAdd = useSelector(selectIsAdd);
+interface AddProps {
+  date: string;
+}
 
-  let item: any;
+export default function TodoAddBtn(props: AddProps) {
+  const [isAdd, setIsAdd] = useState(false);
+
+  let item: JSX.Element;
 
   if (!isAdd) {
     item = (
@@ -17,11 +18,11 @@ export default function TodoAddBtn() {
       </button>
     );
   } else {
-    item = <TodoListInput />;
+    item = <TodoInput setIsAdd={handleAddBtn} date={props.date} />;
   }
 
   function handleAddBtn() {
-    dispatch(changeIsAdd());
+    setIsAdd(!isAdd);
   }
 
   return <div>{item}</div>;
