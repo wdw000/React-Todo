@@ -1,23 +1,28 @@
-import { useState } from "react";
+import { Close, ExpandCircleDownOutlined } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import TodoItem from "../../../components/TodoItem";
 import { selectCloseTodos, selectOrder } from "../todoSlice";
 import { sortTodo } from "./sortTodo";
+import "./TodoClosedWarning.css";
 
-export default function TodoClosedWarning() {
-  const [isMore, setIsMore] = useState(false);
+interface ClosedWarningProps {
+  isMore: boolean;
+  setIsMore: Function;
+}
+
+export default function TodoClosedWarning(props: ClosedWarningProps) {
   const closeTodos = useSelector(selectCloseTodos);
   const order = useSelector(selectOrder);
   const todos = sortTodo(closeTodos, order);
 
   function handleMoreBtn() {
-    setIsMore(!isMore);
+    props.setIsMore(!props.isMore);
   }
 
   const closeWarning = (
-    <div>
+    <div className="close-warning click" onClick={() => handleMoreBtn()}>
       <p>마감된 할 일이 있습니다!</p>
-      <button onClick={() => handleMoreBtn()}>더보기</button>
+      <ExpandCircleDownOutlined className="expand-btn" fontSize="inherit" />
     </div>
   );
 
@@ -26,15 +31,22 @@ export default function TodoClosedWarning() {
   ));
 
   const closeTodoList = (
-    <div>
-      <button onClick={() => handleMoreBtn()}>close</button>
+    <div className="close-list">
+      <div className="close-box">
+        <p>마감된 할 일</p>
+        <Close
+          className="click close-btn"
+          fontSize="inherit"
+          onClick={() => handleMoreBtn()}
+        />
+      </div>
       {closeTodoItems}
     </div>
   );
 
   return (
     <div className="TodoClosedWarning">
-      {isMore ? closeTodoList : closeWarning}{" "}
+      {props.isMore ? closeTodoList : closeWarning}
     </div>
   );
 }

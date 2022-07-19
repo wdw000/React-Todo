@@ -13,7 +13,8 @@ function NavBtn(props: navBtnProps) {
   const navigate = useNavigate();
   const navState = useSelector(selectNavState);
 
-  const [test, test2] = useState(["stirng"]);
+  const [visible, setVisible] = useState(true);
+  const [pageY, setPageY] = useState(0);
 
   const navButtons = props.buttons.map((btn) => {
     return (
@@ -26,10 +27,6 @@ function NavBtn(props: navBtnProps) {
       </li>
     );
   });
-
-  function clickNavBtn(target: string) {
-    dispatch(changeNavState(target));
-  }
 
   useEffect(() => {
     switch (navState) {
@@ -45,11 +42,30 @@ function NavBtn(props: navBtnProps) {
     }
   }, [navState, navigate]);
 
-  return (
-    <nav className="NavBtn">
-      <ul>{navButtons}</ul>
-    </nav>
-  );
+  useEffect(() => {
+    console.log("이벤트 시작");
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      console.log("이벤트 종료");
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
+
+  function clickNavBtn(target: string) {
+    dispatch(changeNavState(target));
+  }
+
+  function handleScroll() {
+    const { scrollY } = window;
+    setVisible(pageY > scrollY);
+    setPageY(scrollY);
+    return;
+  }
+
+  const item = visible ? <ul>{navButtons}</ul> : undefined;
+
+  return <nav className="NavBtn">{item}</nav>;
 }
 
 export default NavBtn;

@@ -1,17 +1,19 @@
 .TodoChart {
-  margin: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .TodoChart > .chart {
-  height: 80vh;
+  height: 70vh;
 }
 
 .TodoChart > .chart-list-counter {
-  float: right;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   z-index: 10;
-  position: relative;
+  margin: 0 2rem;
+  margin-left: auto;
+  margin-top: 1rem;
 }
 
 .TodoChart .chart-list-counter > div {
@@ -19,6 +21,6 @@
   text-align: center;
 }
 
-.TodoChart .chart-list-counter > span {
-  margin-right: 1em;
+.TodoChart .chart-list-counter > .click {
+  font-size: 1.5rem;
 }

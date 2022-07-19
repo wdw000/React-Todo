@@ -1,3 +1,4 @@
+import { Close, Sort } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,7 +10,12 @@ import {
 } from "../features/todo/todoSlice";
 import "./TodoFilter.css";
 
-export function TodoFilter() {
+interface FilterProps {
+  isMore?: boolean;
+  setIsMore?: Function;
+}
+
+export function TodoFilter(props: FilterProps) {
   const dispatch = useDispatch();
   const [isSort, setIsSort] = useState(false);
 
@@ -17,9 +23,12 @@ export function TodoFilter() {
 
   function handleSortBtn() {
     setIsSort(!isSort);
+    if (props.setIsMore !== undefined && props.isMore !== undefined) {
+      props.setIsMore(!props.isMore);
+    }
   }
 
-  const sort = (
+  const sortList = (
     <div className="sort-list">
       <ul className="completed-filter">
         <li
@@ -85,11 +94,13 @@ export function TodoFilter() {
 
   return (
     <div className="TodoFilter">
-      <div className="sort-box click">
-        <span onClick={() => handleSortBtn()}>
-          정렬<span className="extand off">&lt;</span>
-        </span>
-        {isSort === true && sort}
+      <div className="sort-box">
+        {!isSort ? (
+          <Sort className="click sort-btn" onClick={() => handleSortBtn()} />
+        ) : (
+          <Close className="click sort-btn" onClick={() => handleSortBtn()} />
+        )}
+        {isSort === true && sortList}
       </div>
     </div>
   );

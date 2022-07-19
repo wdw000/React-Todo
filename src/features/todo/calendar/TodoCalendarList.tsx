@@ -1,3 +1,4 @@
+import { Close } from "@mui/icons-material";
 import React from "react";
 import { useSelector } from "react-redux";
 import TodoAddBtn from "../../../components/TodoAddBtn";
@@ -5,6 +6,7 @@ import { TodoFilter } from "../../../components/TodoFilter";
 import TodoItem from "../../../components/TodoItem";
 import { sortTodo } from "../list/sortTodo";
 import { selectDateTodos, selectOrder, Todo } from "../todoSlice";
+import "./TodoCalendarList.css";
 
 interface props {
   date: string;
@@ -38,11 +40,13 @@ export default function TodoCalendarList(props: props) {
 
   return (
     <div className="TodoCalendarList">
-      <div>
+      <div className="top">
         <div>{props.date}</div>
-        <div className="close click" onClick={() => handleClose()}>
-          close
-        </div>
+        <Close
+          className="click"
+          fontSize="inherit"
+          onClick={() => handleClose()}
+        />
       </div>
       <TodoFilter />
       {item}

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { selectUid } from "../features/login/loginSlice";
 import { Todo, todoAdded } from "../features/todo/todoSlice";
 import "./TodoInput.css";
+import { changeIsInputClose, selectIsInputClose } from "./settingSlice";
+import { Close } from "@mui/icons-material";
 
 interface InputProps {
   setIsAdd: Function;
@@ -15,9 +17,12 @@ export default function TodoInput(props: InputProps) {
   const [important, setImportant] = useState(false);
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
   const uid = useSelector(selectUid);
+  const isInputClose = useSelector(selectIsInputClose);
   const dispatch = useDispatch();
 
-  function handleContentChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const contentBox = useRef<HTMLTextAreaElement>(null);
+
+  function handleContentChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setContent(event.target.value);
   }
 
@@ -31,6 +36,10 @@ export default function TodoInput(props: InputProps) {
 
   function handleCloseBtn() {
     props.setIsAdd();
+  }
+
+  function handleInputClose(event: React.ChangeEvent<HTMLInputElement>) {
+    dispatch(changeIsInputClose(event.target.checked));
   }
 
   async function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
@@ -64,6 +73,10 @@ export default function TodoInput(props: InputProps) {
         timestamp: result.timestamp,
       };
 
+      if (isInputClose) {
+        props.setIsAdd();
+      }
+
       dispatch(todoAdded(todo));
       setContent("");
       setEndDate(moment().format("YYYY-MM-DD"));
@@ -71,61 +84,88 @@ export default function TodoInput(props: InputProps) {
     }
   }
 
-  return (
-    <div className="TodoListInput">
-      <div className="top-menu">
-        <button className="click" onClick={() => handleCloseBtn()}>
-          X
-        </button>
-        <div>
-          <label htmlFor="closeCheck">저장 후 창 닫기</label>
-          <input type="checkbox" id="closeCheck" />
-        </div>
-      </div>
+  useEffect(() => {
+    if (contentBox.current) {
+      contentBox.current.style.height = `1px`;
+      contentBox.current.style.height = `${
+        12 + contentBox.current.scrollHeight
+      }px`;
+    }
+  });
 
-      <form
-        onSubmit={(event: React.ChangeEvent<HTMLFormElement>) =>
-          handleSubmit(event)
-        }
-      >
-        <div>
-          <input
-            type="text"
-            id="content"
-            placeholder="할일을 입력해주세요."
-            value={content}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleContentChange(event)
-            }
-          />
+  useEffect(() => {
+    document.body.style.cssText = `
+    position: fixed;
+    top: -${window.scrollY}px;
+    overflow-y: scroll;
+    width: 100%;`;
+
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = "";
+      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+    };
+  });
+
+  return (
+    <div className="input-wrap">
+      <div className="graybox"></div>
+      <div className="TodoListInput">
+        <div className="top-menu">
+          <Close className="click" onClick={() => handleCloseBtn()} />
           <div>
-            <label htmlFor="important">중요</label>
+            <label htmlFor="closeCheck">저장 후 창 닫기</label>
             <input
               type="checkbox"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleImportant(event)
-              }
-              checked={important}
+              id="closeCheck"
+              onChange={(e) => handleInputClose(e)}
+              checked={isInputClose}
             />
           </div>
         </div>
 
-        <div>
-          <label htmlFor="end">마감일</label>
-          <input
-            type="date"
-            id="end"
-            value={props.date}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleEndDate(event)
-            }
-          />
-        </div>
+        <form
+          onSubmit={(event: React.ChangeEvent<HTMLFormElement>) =>
+            handleSubmit(event)
+          }
+        >
+          <div>
+            <textarea
+              id="content"
+              placeholder="할일을 입력해주세요."
+              value={content}
+              onChange={(event) => handleContentChange(event)}
+              ref={contentBox}
+            />
+            <div>
+              <label htmlFor="important">중요</label>
+              <input
+                type="checkbox"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleImportant(event)
+                }
+                checked={important}
+              />
+            </div>
+          </div>
 
-        <button type="submit" className="click">
-          저장
-        </button>
-      </form>
+          <div>
+            <label htmlFor="end">마감일</label>
+            <input
+              type="date"
+              id="end"
+              value={props.date}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleEndDate(event)
+              }
+            />
+          </div>
+
+          <button type="submit" className="click">
+            저장
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

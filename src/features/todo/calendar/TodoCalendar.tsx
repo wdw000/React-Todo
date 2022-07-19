@@ -11,6 +11,7 @@ import {
 } from "../todoSlice";
 import TodoCalendarList from "./TodoCalendarList";
 import TodoAddBtn from "../../../components/TodoAddBtn";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
 function TodoCalendar() {
   const calendarDate = useSelector(selectCalendarDate);
@@ -198,12 +199,22 @@ function TodoCalendar() {
     <div className="TodoCalendar">
       <TodoAddBtn date={moment().format("YYYY-MM-DD")} />
       <div className="month-controler">
-        <div>{calendarDate}</div>
+        <p>{calendarDate}</p>
 
         <div className="btn-group">
-          <button onClick={() => dispatch(calendarMonthSub())}>&lt;</button>
+          <ArrowBackIosNew
+            className="click"
+            fontSize="inherit"
+            color="inherit"
+            onClick={() => dispatch(calendarMonthSub())}
+          />
           <button onClick={() => dispatch(calendarMonthToday())}>오늘</button>
-          <button onClick={() => dispatch(calendarMonthAdd())}>&gt;</button>
+          <ArrowForwardIos
+            className="click"
+            fontSize="inherit"
+            color="inherit"
+            onClick={() => dispatch(calendarMonthAdd())}
+          />
         </div>
       </div>
 

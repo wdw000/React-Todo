@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { CancelOutlined, Update } from "@mui/icons-material";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Todo, todoUpdated } from "../features/todo/todoSlice";
 import "./TodoEdit.css";
@@ -14,8 +15,9 @@ export default function TodoEdit(props: editProps) {
   const [endDate, setEndDate] = useState(props.todo.end_date);
 
   const dispatch = useDispatch();
+  const contentBox = useRef<HTMLTextAreaElement>(null);
 
-  function handleContent(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleContent(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setContent(event.target.value);
   }
 
@@ -71,15 +73,24 @@ export default function TodoEdit(props: editProps) {
     }
   }
 
+  useEffect(() => {
+    if (contentBox.current) {
+      contentBox.current.style.height = `1px`;
+      contentBox.current.style.height = `${
+        12 + contentBox.current.scrollHeight
+      }px`;
+    }
+  });
+
   return (
     <div className="TodoEdit">
       <form onSubmit={(event) => handleSubmit(event)}>
         <div className="edit-top">
-          <input
-            type="text"
+          <textarea
             id="content"
             value={content}
             onChange={(event) => handleContent(event)}
+            ref={contentBox}
           />
           <div>
             <label htmlFor="important">중요</label>
@@ -104,10 +115,16 @@ export default function TodoEdit(props: editProps) {
           </div>
 
           <div>
-            <button type="button" onClick={() => props.setIsEdit()}>
-              CANCEL
+            <button type="submit" className="click">
+              <Update fontSize="inherit" />
             </button>
-            <button type="submit">UPDATE</button>
+            <button
+              type="button"
+              className="click"
+              onClick={() => props.setIsEdit()}
+            >
+              <CancelOutlined fontSize="inherit" />
+            </button>
           </div>
         </div>
       </form>

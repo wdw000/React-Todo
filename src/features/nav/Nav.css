@@ -3,6 +3,9 @@ header {
   display: flex;
   flex-direction: row;
   box-shadow: var(--light-shadow);
+  position: sticky;
+  z-index: 50;
+  top: 0;
 }
 
 .header-left {
@@ -29,8 +32,8 @@ header {
 }
 
 .header-right > img {
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 3rem;
 }
 

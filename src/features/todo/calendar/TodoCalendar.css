@@ -1,5 +1,34 @@
-.TodoCalendar {
-  margin: 1rem;
+.TodoCalendar .month-controler {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  margin: 1rem 2rem;
+}
+
+.TodoCalendar .month-controler > p {
+  flex: 1;
+}
+
+.TodoCalendar .month-controler .btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--light-list-color);
+}
+
+.TodoCalendar .month-controler .btn-group > button {
+  margin: 0 0.5rem;
+  font-size: 1rem;
+  background-color: var(--light-color);
+  border: solid var(--light-list-color) 0.1rem;
+  border-radius: 1rem;
+  padding: 0.2rem 1rem;
+}
+
+.TodoCalendar .calendar,
+.TodoCalendar .dates {
+  margin: 0 1rem;
 }
 
 .TodoCalendar .row {

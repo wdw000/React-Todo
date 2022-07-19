@@ -4,7 +4,7 @@ import loginReducer from "../features/login/loginSlice";
 import navSlice from "../features/nav/navSlice";
 import chartSlice from "../features/todo/chart/chartSlice";
 import todoSlice from "../features/todo/todoSlice";
-import settingSlice from "../settingSlice";
+import settingSlice from "../components/settingSlice";
 
 export const store = configureStore({
   reducer: {

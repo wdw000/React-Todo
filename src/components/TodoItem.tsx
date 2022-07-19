@@ -6,6 +6,11 @@ import TodoEdit from "./TodoEdit";
 import "./TodoItem.css";
 import star from "../img/star.svg";
 import starOutLine from "../img/star_outline.svg";
+import {
+  DeleteOutline,
+  DoneOutline,
+  ModeEditOutlineOutlined,
+} from "@mui/icons-material";
 
 interface itemProps {
   todo: Todo;
@@ -31,18 +36,16 @@ const TodoItem = (props: itemProps) => {
     setIsEdit(!isEdit);
   }
 
-  async function handleItemClick(event: any) {
-    if (event.target.tagName !== "BUTTON") {
-      const respone = await fetch(
-        `${process.env.REACT_APP_BACK_URL}/todo/${props.todo.id}`,
-        {
-          method: "PUT",
-        }
-      );
-
-      if (respone.status === 200) {
-        dispatch(todoCompleted(props.todo.id));
+  async function handleItemClick() {
+    const respone = await fetch(
+      `${process.env.REACT_APP_BACK_URL}/todo/${props.todo.id}`,
+      {
+        method: "PUT",
       }
+    );
+
+    if (respone.status === 200) {
+      dispatch(todoCompleted(props.todo.id));
     }
   }
 
@@ -63,25 +66,25 @@ const TodoItem = (props: itemProps) => {
     setIsMore(!isMore);
   }
 
-  useEffect(() => {
+  function checkMore() {
     if (contextBox.current && context.current) {
       if (context.current.scrollWidth > context.current.clientWidth) {
-        setMore(true);
-      } else {
-        setMore(false);
-      }
-    }
-
-    window.addEventListener("resize", () => {
-      if (contextBox.current && context.current) {
-        if (context.current.scrollWidth > context.current.clientWidth) {
+        if (more === false) {
           setMore(true);
-        } else {
+        }
+      } else {
+        if (more === true) {
           setMore(false);
         }
       }
-    });
-  }, [setMore]);
+    }
+  }
+
+  useEffect(() => {
+    checkMore();
+    window.addEventListener("resize", checkMore);
+    return () => window.removeEventListener("resize", checkMore);
+  });
 
   const moreBtn = <button onClick={() => handleMoreBtn()}>더보기</button>;
   const simplyBtn = <button onClick={() => handleMoreBtn()}>간략히</button>;
@@ -91,8 +94,12 @@ const TodoItem = (props: itemProps) => {
       className={
         props.todo.completed ? "TodoItem done click" : "TodoItem click"
       }
-      onClick={(event) => handleItemClick(event)}
+      onClick={() => handleItemClick()}
     >
+      {props.todo.completed && (
+        <DoneOutline color="inherit" className="done-icon" />
+      )}
+
       <div className="top">
         <div
           className={
@@ -103,6 +110,7 @@ const TodoItem = (props: itemProps) => {
               : "context-box"
           }
           ref={contextBox}
+          onClick={(event) => event.stopPropagation()}
         >
           <p
             className={
@@ -125,18 +133,22 @@ const TodoItem = (props: itemProps) => {
       <div className="bottom">
         <div className="dates">
           <div>{remainDate}</div>
-          <span>{props.todo.start_date.slice(2)}</span>
+          <span>{props.todo.start_date.slice(5)}</span>
           <span> ~ </span>
-          <span>{props.todo.end_date.slice(2)}</span>
+          <span>{props.todo.end_date.slice(5)}</span>
         </div>
         <div></div>
-        <div className="right">
-          <button className="edit click" onClick={() => handleIsEdit()}>
-            EDIT
-          </button>
-          <button className="remove click" onClick={() => handleDelete()}>
-            REMOVE
-          </button>
+        <div className="right" onClick={(event) => event.stopPropagation()}>
+          <ModeEditOutlineOutlined
+            className="edit click"
+            onClick={() => handleIsEdit()}
+            fontSize="inherit"
+          />
+          <DeleteOutline
+            className="remove click"
+            onClick={() => handleDelete()}
+            fontSize="inherit"
+          />
         </div>
       </div>
     </div>

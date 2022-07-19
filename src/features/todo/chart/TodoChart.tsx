@@ -1,3 +1,4 @@
+import { Add, Remove } from "@mui/icons-material";
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
@@ -53,7 +54,7 @@ export default function TodoChart() {
 
       completed.push(done);
       progress.push(item.todos.length - done);
-      categories.push(item.date.slice(2));
+      categories.push(item.date.slice(5));
     });
 
     const series: ApexOptions["series"] = [
@@ -85,6 +86,13 @@ export default function TodoChart() {
       categories: categories,
     };
 
+    const yaxis: ApexYAxis = {
+      labels: {
+        align: "center",
+        rotate: -45,
+      },
+    };
+
     const legend: ApexLegend = {
       position: "top",
       horizontalAlign: "left",
@@ -96,6 +104,7 @@ export default function TodoChart() {
         plotOptions: plotOptions,
         xaxis: xaxis,
         legend: legend,
+        yaxis: yaxis,
       },
       series: series,
     };
@@ -108,14 +117,17 @@ export default function TodoChart() {
   return (
     <div className="TodoChart">
       <div className="chart-list-counter">
-        <span>리스트 수</span>
-        <button className="click" onClick={() => dispatch(subListCnt())}>
-          -
-        </button>
+        <Remove
+          fontSize="inherit"
+          className="click"
+          onClick={() => dispatch(subListCnt())}
+        />
         <div>{listCnt}</div>
-        <button className="click" onClick={() => dispatch(addListCnt())}>
-          +
-        </button>
+        <Add
+          fontSize="inherit"
+          className="click"
+          onClick={() => dispatch(addListCnt())}
+        />
       </div>
 
       <div className="chart">

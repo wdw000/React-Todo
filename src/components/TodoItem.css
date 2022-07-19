@@ -11,7 +11,18 @@
 }
 
 div[class*="TodoItem done"] {
-  border-color: red;
+  background-color: var(--light-color);
+  opacity: 0.5;
+}
+
+.TodoItem .done-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 50%;
+  color: var(--light-list-color);
 }
 
 .TodoItem > .top {
@@ -53,6 +64,7 @@ div[class*="TodoItem done"] {
   overflow: visible;
   text-overflow: clip;
   white-space: normal;
+  word-break: break-all;
 }
 
 .TodoItem .context-box > button {
@@ -82,7 +94,15 @@ div[class*="TodoItem done"] {
 .TodoItem .dates > div {
   border: solid black 2px;
   border-radius: 10rem;
-  padding: 0.1rem 0.5rem;
+  padding: 0.2rem 0.5rem;
   width: fit-content;
   margin-bottom: 1rem;
+}
+
+.TodoItem .right {
+  font-size: 1.7rem;
+}
+
+.TodoItem .right > :first-child {
+  margin-right: 0.5rem;
 }
