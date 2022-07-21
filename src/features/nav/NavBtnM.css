@@ -1,0 +1,61 @@
+.NavBtnM {
+  position: absolute;
+  font-size: 1.8rem;
+  width: 100%;
+  z-index: 30;
+  padding-bottom: 1rem;
+}
+
+.NavBtnM > ul {
+  box-shadow: var(--light-shadow);
+}
+
+.NavBtnM > ul > li {
+  padding: 1.5rem 1rem;
+  border-top: solid white 0.2rem;
+}
+
+.NavBtnM > ul > .on {
+  background-color: var(--light-list-color);
+}
+
+.NavBtnM > ul > .off {
+  background-color: var(--light-color);
+}
+
+@keyframes slide-fade-in-animation {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.slide-fade-in {
+  overflow: hidden;
+}
+
+.slide-fade-in > ul {
+  animation: slide-fade-in-animation 0.4s ease;
+}
+
+@keyframes slide-fade-out-animation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.slide-fade-out {
+  overflow: hidden;
+}
+
+.slide-fade-out > ul {
+  animation: slide-fade-out-animation 0.4s ease;
+  animation-fill-mode: forwards;
+}

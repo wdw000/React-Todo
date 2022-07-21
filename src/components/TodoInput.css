@@ -1,6 +1,7 @@
 .TodoListInput {
   position: fixed;
   z-index: 100;
+  max-width: 1536px;
   width: 80%;
   top: 50%;
   left: 50%;
@@ -36,7 +37,7 @@
 
 .TodoListInput > form > div + div > input {
   margin: 0 0.5rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .TodoListInput > form textarea {

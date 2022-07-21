@@ -1,16 +1,30 @@
-header {
+.header-wrap {
   background-color: var(--light-color);
-  display: flex;
-  flex-direction: row;
   box-shadow: var(--light-shadow);
   position: sticky;
   z-index: 50;
   top: 0;
 }
 
+header {
+  max-width: 1920px;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.header-wrap .NavBtnM {
+  display: none;
+}
+
+header > .mobile-menu {
+  font-size: 2rem;
+  display: none;
+}
+
 .header-left {
   flex: 1;
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 
 .header-left > div {
@@ -28,7 +42,7 @@ header {
 .header-right {
   display: flex;
   align-items: center;
-  margin-right: 2rem;
+  margin-right: 1rem;
 }
 
 .header-right > img {
@@ -48,4 +62,19 @@ header {
   background: transparent;
   padding: 0;
   border: none;
+}
+
+@media (max-width: 768px) {
+  header .NavBtn {
+    display: none;
+  }
+
+  header > .mobile-menu {
+    display: block;
+    margin-left: 1rem;
+  }
+
+  .header-wrap .NavBtnM {
+    display: block;
+  }
 }

@@ -6,6 +6,7 @@ import "./TodoEdit.css";
 
 interface editProps {
   setIsEdit: Function;
+  setIsChange: Function;
   todo: Todo;
 }
 
@@ -67,6 +68,7 @@ export default function TodoEdit(props: editProps) {
       }
 
       props.setIsEdit();
+      props.setIsChange(true);
     } else {
       // 업데이트 실패 시
       return;

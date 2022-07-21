@@ -1,3 +1,8 @@
+.TodoCalendar {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
 .TodoCalendar .month-controler {
   display: flex;
   align-items: center;
@@ -33,7 +38,7 @@
 
 .TodoCalendar .row {
   display: flex;
-  height: 5rem;
+  height: 10vh;
 }
 
 .TodoCalendar .row > div {

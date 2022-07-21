@@ -35,6 +35,10 @@
   justify-content: space-between;
 }
 
+.TodoEdit .edit-bot > :first-child > input {
+  font-size: 0.8rem;
+}
+
 .TodoEdit .edit-bot > :last-child > button {
   font-size: 1.7rem;
   background-color: transparent;

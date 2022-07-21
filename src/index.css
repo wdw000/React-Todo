@@ -126,3 +126,7 @@ table {
 * {
   box-sizing: border-box;
 }
+
+html {
+  font-size: clamp(13px, 10px + 1vw, 20px);
+}

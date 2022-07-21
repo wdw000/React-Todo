@@ -20,6 +20,8 @@ const TodoItem = (props: itemProps) => {
   const [isEdit, setIsEdit] = useState(false);
   const [more, setMore] = useState(false);
   const [isMore, setIsMore] = useState(false);
+  const [isChange, setIsChange] = useState(true);
+
   const dispatch = useDispatch();
 
   const remaining = Math.ceil(
@@ -66,25 +68,43 @@ const TodoItem = (props: itemProps) => {
     setIsMore(!isMore);
   }
 
-  function checkMore() {
-    if (contextBox.current && context.current) {
-      if (context.current.scrollWidth > context.current.clientWidth) {
-        if (more === false) {
-          setMore(true);
+  useEffect(() => {
+    function checkMore() {
+      if (contextBox.current && context.current && isChange) {
+        if (context.current.scrollWidth > context.current.clientWidth) {
+          if (more === false) {
+            setMore(true);
+          }
+        } else {
+          if (more === true) {
+            setMore(false);
+          }
         }
-      } else {
-        if (more === true) {
-          setMore(false);
-        }
+
+        setIsChange(false);
       }
     }
-  }
 
-  useEffect(() => {
+    function handleResize() {
+      if (contextBox.current && context.current) {
+        if (context.current.scrollWidth > context.current.clientWidth) {
+          if (more === false) {
+            setMore(true);
+          }
+        } else {
+          if (more === true) {
+            setMore(false);
+          }
+        }
+
+        setIsChange(false);
+      }
+    }
+
     checkMore();
-    window.addEventListener("resize", checkMore);
-    return () => window.removeEventListener("resize", checkMore);
-  });
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [more, setMore, isChange]);
 
   const moreBtn = <button onClick={() => handleMoreBtn()}>더보기</button>;
   const simplyBtn = <button onClick={() => handleMoreBtn()}>간략히</button>;
@@ -156,7 +176,15 @@ const TodoItem = (props: itemProps) => {
 
   return (
     <div>
-      {!isEdit ? item : <TodoEdit setIsEdit={handleIsEdit} todo={props.todo} />}
+      {!isEdit ? (
+        item
+      ) : (
+        <TodoEdit
+          setIsChange={setIsChange}
+          setIsEdit={handleIsEdit}
+          todo={props.todo}
+        />
+      )}
     </div>
   );
 };
