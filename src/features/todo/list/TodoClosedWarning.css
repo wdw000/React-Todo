@@ -10,6 +10,9 @@
 
 .TodoClosedWarning .close-warning > .expand-btn {
   font-size: 1.5rem;
+  background-color: var(--light-color);
+  border-radius: 5rem;
+  border: solid 0.1rem var(--light-list-color);
 }
 
 .TodoClosedWarning .close-list {

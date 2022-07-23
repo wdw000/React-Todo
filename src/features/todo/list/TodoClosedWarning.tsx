@@ -1,4 +1,4 @@
-import { Close, ExpandCircleDownOutlined } from "@mui/icons-material";
+import { Close, MoreHorizTwoTone } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import TodoItem from "../../../components/TodoItem";
 import { selectCloseTodos, selectOrder } from "../todoSlice";
@@ -21,8 +21,8 @@ export default function TodoClosedWarning(props: ClosedWarningProps) {
 
   const closeWarning = (
     <div className="close-warning click" onClick={() => handleMoreBtn()}>
-      <p>마감된 할 일이 있습니다!</p>
-      <ExpandCircleDownOutlined className="expand-btn" fontSize="inherit" />
+      <p>마감된 할 일이 있습니다</p>
+      <MoreHorizTwoTone className="expand-btn" fontSize="inherit" />
     </div>
   );
 

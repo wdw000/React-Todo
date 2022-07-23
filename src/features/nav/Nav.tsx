@@ -16,6 +16,11 @@ const Nav = () => {
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState(false);
 
+  function handleLogout() {
+    sessionStorage.removeItem("res");
+    dispatch(logout());
+  }
+
   useEffect(() => {
     switch (navState) {
       case "List":
@@ -53,7 +58,7 @@ const Nav = () => {
         </div>
         <div className="header-right">
           <img src={userPicture} alt="user profile img" />
-          <button onClick={() => dispatch(logout())}>
+          <button onClick={() => handleLogout()}>
             <LogoutOutlined fontSize="inherit" />
           </button>
         </div>

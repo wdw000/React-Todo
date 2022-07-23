@@ -13,11 +13,7 @@ function PrivateRoute({ component: Component }) {
     picture: "",
   };
 
-  return !isEqual(user, initialLoginUser) ? (
-    Component
-  ) : (
-    <Navigate to="/" {...alert("로그인이 필요합니다.")} />
-  );
+  return !isEqual(user, initialLoginUser) ? Component : <Navigate to="/" />;
 }
 
 export default PrivateRoute;
