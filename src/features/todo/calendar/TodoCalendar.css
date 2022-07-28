@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin: 1rem 2rem;
 }
 
@@ -20,11 +20,11 @@
   justify-content: center;
   align-items: center;
   color: var(--light-list-color);
+  font-size: 1.5rem;
 }
 
 .TodoCalendar .month-controler .btn-group > button {
   margin: 0 0.5rem;
-  font-size: 1rem;
   background-color: var(--light-color);
   border: solid var(--light-list-color) 0.1rem;
   border-radius: 1rem;

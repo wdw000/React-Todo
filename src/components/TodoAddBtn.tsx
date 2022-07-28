@@ -1,3 +1,4 @@
+import { Add } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import "./TodoAddBtn.css";
 import TodoInput from "./TodoInput";
@@ -26,16 +27,16 @@ export default function TodoAddBtn(props: AddProps) {
   }
 
   const item = !isAdd ? (
-    <button
-      className={`TodoAddBtn click`}
-      onClick={() => handleAddBtn()}
-      hidden={!show}
-    >
-      +
-    </button>
+    <div className="TodoAddBtn">
+      <Add
+        className={!show ? "add click on" : "add click"}
+        onClick={() => handleAddBtn()}
+        fontSize="inherit"
+      />
+    </div>
   ) : (
     <TodoInput setIsAdd={handleAddBtn} date={props.date} />
   );
 
-  return <>{item}</>;
+  return <div>{item}</div>;
 }

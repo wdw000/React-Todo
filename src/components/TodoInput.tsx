@@ -15,7 +15,7 @@ interface InputProps {
 export default function TodoInput(props: InputProps) {
   const [content, setContent] = useState("");
   const [important, setImportant] = useState(false);
-  const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
+  const [endDate, setEndDate] = useState(props.date);
   const uid = useSelector(selectUid);
   const isInputClose = useSelector(selectIsInputClose);
   const dispatch = useDispatch();
@@ -154,7 +154,7 @@ export default function TodoInput(props: InputProps) {
             <input
               type="date"
               id="end"
-              value={props.date}
+              value={endDate}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 handleEndDate(event)
               }

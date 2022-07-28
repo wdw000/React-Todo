@@ -8,6 +8,7 @@ import "./TodoClosedWarning.css";
 interface ClosedWarningProps {
   isMore: boolean;
   setIsMore: Function;
+  nothing?: boolean;
 }
 
 export default function TodoClosedWarning(props: ClosedWarningProps) {
@@ -20,7 +21,14 @@ export default function TodoClosedWarning(props: ClosedWarningProps) {
   }
 
   const closeWarning = (
-    <div className="close-warning click" onClick={() => handleMoreBtn()}>
+    <div
+      className={
+        props.nothing === true
+          ? "close-warning click hidden"
+          : "close-warning click"
+      }
+      onClick={() => handleMoreBtn()}
+    >
       <p>마감된 할 일이 있습니다</p>
       <MoreHorizTwoTone className="expand-btn" fontSize="inherit" />
     </div>
@@ -33,7 +41,9 @@ export default function TodoClosedWarning(props: ClosedWarningProps) {
   const closeTodoList = (
     <div className="close-list">
       <div className="close-box">
-        <p>마감된 할 일</p>
+        <p>
+          {props.nothing === true ? "마감된 할 일이 없습니다" : "마감된 할 일"}
+        </p>
         <Close
           className="click close-btn"
           fontSize="inherit"

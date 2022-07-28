@@ -48,7 +48,13 @@ export default function TodoList() {
   const closed = !isSortMore ? (
     closeTodos.length !== 0 ? (
       <TodoClosedWarning isMore={isClosedMore} setIsMore={setIsClosedMore} />
-    ) : undefined
+    ) : (
+      <TodoClosedWarning
+        isMore={isClosedMore}
+        setIsMore={setIsClosedMore}
+        nothing={true}
+      />
+    )
   ) : undefined;
 
   const dateControl = (

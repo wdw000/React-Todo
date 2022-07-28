@@ -21,7 +21,7 @@
   justify-content: space-between;
   margin: 0 2rem;
   margin-top: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .TodoList .date-control > .date {
@@ -33,11 +33,11 @@
   justify-content: center;
   align-items: center;
   color: var(--light-list-color);
+  font-size: 1.5rem;
 }
 
 .TodoList .btn-group > button {
   margin: 0 0.5rem;
-  font-size: 1rem;
   background-color: var(--light-color);
   border: solid var(--light-list-color) 0.1rem;
   border-radius: 1rem;

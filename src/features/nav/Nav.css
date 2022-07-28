@@ -33,10 +33,7 @@ header > .mobile-menu {
 }
 
 .header-left > h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 1.5rem 0;
-  flex: 1;
+  display: none;
 }
 
 .header-right {
@@ -46,8 +43,8 @@ header > .mobile-menu {
 }
 
 .header-right > img {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 3rem;
 }
 
@@ -76,5 +73,13 @@ header > .mobile-menu {
 
   .header-wrap .NavBtnM {
     display: block;
+  }
+
+  .header-left > h1 {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 1rem 0;
+    flex: 1;
   }
 }
