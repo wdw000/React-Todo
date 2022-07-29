@@ -32,7 +32,7 @@ header > .mobile-menu {
   align-items: center;
 }
 
-.header-left > h1 {
+.header-left > h2 {
   display: none;
 }
 
@@ -52,13 +52,8 @@ header > .mobile-menu {
   margin-left: 1rem;
 }
 
-.header-right > button {
+.header-right > .logout-btn {
   font-size: 2rem;
-  height: 2rem;
-  width: 2rem;
-  background: transparent;
-  padding: 0;
-  border: none;
 }
 
 @media (max-width: 768px) {
@@ -75,7 +70,7 @@ header > .mobile-menu {
     display: block;
   }
 
-  .header-left > h1 {
+  .header-left > h2 {
     display: block;
     font-size: 1.5rem;
     font-weight: bold;

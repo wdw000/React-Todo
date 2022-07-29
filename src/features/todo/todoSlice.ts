@@ -60,6 +60,10 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
+    setIdelFetchTodos: (state) => {
+      state.status = "idle";
+    },
+
     todoAdded: (state, action) => {
       state.items.unshift(action.payload);
     },
@@ -141,7 +145,7 @@ export const todoSlice = createSlice({
       })
       .addCase(fetchTodos.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.items = state.items.concat(action.payload);
+        state.items = action.payload;
       })
       .addCase(fetchTodos.rejected, (state, action) => {
         state.status = "failed";
@@ -183,6 +187,7 @@ export const selectCloseTodos = (state: RootState) =>
   );
 
 export const {
+  setIdelFetchTodos,
   todoAdded,
   todoUpdated,
   todoDeleted,

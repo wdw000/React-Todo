@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
 interface Nav {
-  navState: "List" | "Calendar" | "Chart";
+  navState: "List" | "Calendar" | "Chart" | "Setting";
 }
 
 const initialState: Nav = {

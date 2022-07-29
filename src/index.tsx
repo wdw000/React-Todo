@@ -11,6 +11,7 @@ import TodoList from "./features/todo/list/TodoList";
 import TodoCalendar from "./features/todo/calendar/TodoCalendar";
 import PrivateRoute from "./router/PrivateRoute";
 import TodoChart from "./features/todo/chart/TodoChart";
+import TodoSetting from "./features/setting/TodoSetting";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -25,6 +26,7 @@ root.render(
           <Route path="list" element={<TodoList />} />
           <Route path="calendar" element={<TodoCalendar />} />
           <Route path="chart" element={<TodoChart />} />
+          <Route path="setting" element={<TodoSetting />} />
         </Route>
       </Routes>
     </BrowserRouter>

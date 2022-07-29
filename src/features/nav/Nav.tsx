@@ -10,7 +10,7 @@ import NavBtnM from "./NavBtnM";
 
 const Nav = () => {
   const userPicture = useSelector(selectLoginImg);
-  const navButtons = ["List", "Calendar", "Chart"];
+  const navButtons = ["List", "Calendar", "Chart", "Setting"];
   const navState = useSelector(selectNavState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,6 +31,9 @@ const Nav = () => {
         break;
       case "Chart":
         navigate("chart");
+        break;
+      case "Setting":
+        navigate("setting");
         break;
     }
   }, [navState, navigate]);
@@ -53,14 +56,17 @@ const Nav = () => {
       <header>
         {mobileMenu}
         <div className="header-left">
-          <h1>{isMenu ? "Menu" : navState}</h1>
+          <h2>{isMenu ? "Menu" : navState}</h2>
           <NavBtn buttons={navButtons} />
         </div>
         <div className="header-right">
           <img src={userPicture} alt="user profile img" />
-          <button onClick={() => handleLogout()}>
-            <LogoutOutlined fontSize="inherit" />
-          </button>
+
+          <LogoutOutlined
+            onClick={() => handleLogout()}
+            fontSize="inherit"
+            className="click logout-btn"
+          />
         </div>
       </header>
       <NavBtnM isMenu={isMenu} setIsMenu={setIsMenu} buttons={navButtons} />

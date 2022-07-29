@@ -87,6 +87,7 @@ function LoginBtn() {
           onSuccess={(res) => handleCallbackResponse(res)}
           onError={() => console.log("fail")}
           ux_mode="popup"
+          size="large"
         />
       </GoogleOAuthProvider>
     </>
