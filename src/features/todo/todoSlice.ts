@@ -62,6 +62,7 @@ export const todoSlice = createSlice({
   reducers: {
     setIdelFetchTodos: (state) => {
       state.status = "idle";
+      state.items = [];
     },
 
     todoAdded: (state, action) => {
@@ -145,7 +146,7 @@ export const todoSlice = createSlice({
       })
       .addCase(fetchTodos.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.items = action.payload;
+        state.items = state.items.concat(action.payload);
       })
       .addCase(fetchTodos.rejected, (state, action) => {
         state.status = "failed";
@@ -173,7 +174,7 @@ export const selectMonthTodos = (state: RootState) =>
     (item) => state.todo.date.calendar === item.start_date.slice(0, 7)
   );
 
-export function selectDateTodos(date: string) {
+export function selectDateTodos(date: string | undefined) {
   const item = (state: RootState) =>
     state.todo.items.filter((item) => item.end_date === date);
 

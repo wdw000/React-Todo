@@ -17,7 +17,7 @@ function TodoCalendar() {
   const calendarDate = useSelector(selectCalendarDate);
   const thisMonthTodos = useSelector(selectMonthTodos);
   const dispatch = useDispatch();
-  const [clickDate, setClickDate] = useState("");
+  const [clickDate, setClickDate] = useState<undefined | string>(undefined);
   const [isClick, setIsClick] = useState(false);
 
   const calendarBox = useRef<HTMLDivElement>(null);
@@ -191,7 +191,7 @@ function TodoCalendar() {
         ? `${calendarDate}-0${date}`
         : `${calendarDate}-${date}`;
 
-    setClickDate(thisDate);
+    setClickDate(thisDate.slice(0, 10));
     setIsClick(true);
   }
 

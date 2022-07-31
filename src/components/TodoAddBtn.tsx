@@ -4,7 +4,7 @@ import "./TodoAddBtn.css";
 import TodoInput from "./TodoInput";
 
 interface AddProps {
-  date: string;
+  date: string | undefined;
 }
 
 export default function TodoAddBtn(props: AddProps) {

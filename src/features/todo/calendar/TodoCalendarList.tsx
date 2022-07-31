@@ -9,7 +9,7 @@ import { selectDateTodos, selectOrder, Todo } from "../todoSlice";
 import "./TodoCalendarList.css";
 
 interface props {
-  date: string;
+  date: string | undefined;
   setIsClick: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

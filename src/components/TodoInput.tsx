@@ -9,7 +9,7 @@ import { Close } from "@mui/icons-material";
 
 interface InputProps {
   setIsAdd: Function;
-  date: string;
+  date: string | undefined;
 }
 
 export default function TodoInput(props: InputProps) {
@@ -21,6 +21,8 @@ export default function TodoInput(props: InputProps) {
   const dispatch = useDispatch();
 
   const contentBox = useRef<HTMLTextAreaElement>(null);
+
+  console.log(props.date);
 
   function handleContentChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setContent(event.target.value);
@@ -79,7 +81,7 @@ export default function TodoInput(props: InputProps) {
 
       dispatch(todoAdded(todo));
       setContent("");
-      setEndDate(moment().format("YYYY-MM-DD"));
+      setEndDate(props.date);
       setImportant(false);
     }
   }
