@@ -22,8 +22,6 @@ export default function TodoInput(props: InputProps) {
 
   const contentBox = useRef<HTMLTextAreaElement>(null);
 
-  console.log(props.date);
-
   function handleContentChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setContent(event.target.value);
   }
