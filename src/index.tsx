@@ -21,8 +21,8 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="/main" element={<PrivateRoute component={<App />} />}>
+        <Route path="/todo" element={<Login />}></Route>
+        <Route path="/todo/main" element={<PrivateRoute component={<App />} />}>
           <Route path="list" element={<TodoList />} />
           <Route path="calendar" element={<TodoCalendar />} />
           <Route path="chart" element={<TodoChart />} />
