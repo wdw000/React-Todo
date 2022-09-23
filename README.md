@@ -5,5 +5,5 @@
 ## 1. Create .env
 ```
 REACT_APP_GOOGLE_OAUTH = YOUR API KEY
-REACT_APP_BACK_URL = YOUR BACKEND
+REACT_APP_BACK_URL = YOUR BACKEND URL ex) https://example.com
 ```
